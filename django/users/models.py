@@ -36,15 +36,11 @@ class MyAccountManager(BaseUserManager):
 class Designation(models.Model):
 
   STATUS = (
-      ('chennai', 'chennai'),
-      ('bangalore', 'bangalore'),
-      ('mumbai', 'mumbai'),
-      ('cochin', 'cochin'),
-      ('dehli', 'dehli'),
-      ('panjab', 'panjab'),
-      ('gujarat', 'gujarat'),
-      ('calicut', 'calicut'),
-
+      ('QA Lead', 'QA Lead'),
+      ('Engineer', 'Engineer'),
+      ('Developer', 'Developer'),
+      ('Admin', 'Admin'),
+      ('QA tester', 'QA tester'),
   )
   designation = models.CharField(max_length=10, choices=STATUS, default='bangalore')
 
@@ -56,6 +52,7 @@ class users(AbstractBaseUser):
   name = models.CharField(max_length=50)
   email = models.EmailField(max_length=100, unique=True)
   phone = models.CharField(max_length=50, null=True, blank=True)
+  password = models.CharField(max_length=50, null=True, blank=True)
   address = models.TextField()
   photo = models.ImageField(upload_to='user-profile/', blank=True)
   designation = models.ForeignKey(Designation, on_delete=models.CASCADE)
