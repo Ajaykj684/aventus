@@ -22,7 +22,7 @@ const Colors = () => {
     $(document).ready(function () {
       $("#example").DataTable();
     });
-  }, []);
+  }, 1000);
 
   const handleDelete = (id) => {
     Axios.post(`http://127.0.0.1:8000/delete-user/${id}/`).then((res) =>
@@ -50,26 +50,39 @@ const Colors = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((value) => (
-                <tr key={value.id}>
-                  <td>{value.name}</td>
-                  <td>{value.email}</td>
-                  <td>{value.phone}</td>
-                  <td>{value.designation}</td>
-                  <td>{value.date_joined}</td>
-                  <td>{value.address}</td>
-                  <td>
-                    <button
-                      onClick={() => {
-                        handleDelete(value.id);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {data.map((value) => {
+                return (
+                  <tr key={value.id}>
+                    <td>{value.name}</td>
+                    <td>{value.email}</td>
+                    <td>{value.phone}</td>
+                    <td>{value.designation}</td>
+                    <td>{value.date_joined}</td>
+                    <td>{value.address}</td>
+                    <td>
+                      <button
+                        onClick={() => {
+                          handleDelete(value.id);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
+            <tfoot>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Designation</th>
+                <th>Date Joined</th>
+                <th>Address</th>
+                <th>Delete</th>
+              </tr>
+            </tfoot>
           </table>
         </div>
       </div>

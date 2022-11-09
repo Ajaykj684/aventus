@@ -7,6 +7,7 @@ import jwt
 from .models import users, Designation
 from .serialiser import UserSerializer
 from django.db.models import Q
+from django.contrib.auth import authenticate
 
 
 # Create your views here.
@@ -20,7 +21,15 @@ def getAccessToken(payload):
 
 @api_view(['POST'])
 def userLogin(request):
-  return Response('hai im here')
+
+  user = authenticate(
+      username=request.POST['email'],
+      password=request.POST['password'])
+  if not user:
+    return Response({'ok': 1, 'msg': 'Invalid email or password'}, status=400)
+  else:
+    token = getAccessToken({'id': user.id})
+    return Response({'ok': 0, 'token': token})
 
 
 @api_view(['POST'])
@@ -82,7 +91,7 @@ def deleteUser(request, id):
 
   try:
     users.objects.filter(id=id).delete()
-    return Response({'ok': 1, 'msg': "Deleted"}, status=200)
+    return Response({'ok': 1, 'msg': 'Deleted'}, status=200)
   except Exception as e:
     print(str(e))
     return Response({'ok': 0, 'msg': str(e)}, status=400)
